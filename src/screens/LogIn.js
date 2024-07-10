@@ -40,7 +40,7 @@ export default function LogIn({ navigation }) {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  const handleCreateAccount = () => {
+  const handleLogInAccount = () => {
       signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
           console.log('Account created!');
@@ -100,7 +100,7 @@ export default function LogIn({ navigation }) {
               />
             </View>
             <View style={styles.formAction}>
-              <TouchableOpacity onPress={handleCreateAccount}>
+              <TouchableOpacity onPress={handleLogInAccount}>
                 <View style={styles.btn}>
                   <Text style={styles.btnText}>Sign in</Text>
                 </View>

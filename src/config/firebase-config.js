@@ -4,10 +4,10 @@
 
 // Your web app's Firebase configuration
 export const firebaseConfig = {
-  apiKey: "AIzaSyDbbOlbp_RaAgIQhvfCIBrVp3vdHOWLAVY",
-  authDomain: "practica-firebase-20220332.firebaseapp.com",
-  projectId: "practica-firebase-20220332",
-  storageBucket: "practica-firebase-20220332.appspot.com",
-  messagingSenderId: "665205588545",
-  appId: "1:665205588545:web:de3e277b272584e1f93cc0"
+  apiKey: "AIzaSyCb9-GVPV-RXTaibYdPQf6HpoABG2FLQw4",
+  authDomain: "practica-firebase-202203-df1b0.firebaseapp.com",
+  projectId: "practica-firebase-202203-df1b0",
+  storageBucket: "practica-firebase-202203-df1b0.appspot.com",
+  messagingSenderId: "455511341992",
+  appId: "1:455511341992:web:d86ca05ff4bbbf2e27fb9d"
 };
