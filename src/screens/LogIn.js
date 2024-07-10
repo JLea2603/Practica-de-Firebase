@@ -1,57 +1,39 @@
 import React, { useState } from 'react';
-import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity, TextInput, Alert,} from 'react-native';
+import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity, TextInput, Alert, } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../config/firebase-config';
 
 export default function LogIn({ navigation }) {
-  const handleLogin = () => {
-    // Simple validation
-    if (!email || !password) {
-      Alert.alert('Error', 'Please fill in all fields.');
-      return;
-    }
-
-    // Simulated login process (replace with real authentication)
-    if (email === 'test@example.com' && password === 'password') {
-      Alert.alert('Success', 'Logged in successfully!');
-      // Handle successful login (e.g., navigate to another screen)
-      navigation.navigate('Home');
-    } else {
-      Alert.alert('Error', 'Invalid email or password.');
-    }
-  };
-
-  // Función para navegar a la pantalla 'Add'
-  const goToSingUp = () => { 
-    navigation.navigate('SingUp');
-  }
-
-  // Función para navegar a la pantalla 'Add'
-  const goToHome = () => { 
-    navigation.navigate('Home');
-  }
-
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
   const handleLogInAccount = () => {
-      signInWithEmailAndPassword(auth, email, password)
+    if (!email || !password) {
+      Alert.alert('Error', 'Por favor, completa todos los campos.');
+      return;
+    }
+
+    signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-          console.log('Account created!');
-          const user = userCredential.user;
-          console.log(user);
-          goToHome();
+        console.log('¡Inicio de sesión exitoso!');
+        const user = userCredential.user;
+        console.log(user);
+        navigation.navigate('Home');
       })
-      .catch(error => {
-          console.log(error);
+      .catch((error) => {
+        console.log(error);
+        Alert.alert('Error', 'Correo electrónico o contraseña inválidos.');
       });
-  }
+  };
+
+  const goToSingUp = () => {
+    navigation.navigate('SingUp');
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
@@ -67,28 +49,28 @@ export default function LogIn({ navigation }) {
               }}
             />
             <Text style={styles.title}>
-              Log In <Text style={{ color: '#075eec' }}>MyApp</Text>
+              Iniciar Sesión <Text style={{ color: '#075eec' }}>MyApp</Text>
             </Text>
             <Text style={styles.subtitle}>
-              Get access to your portfolio and more
+              Accede a tu portafolio y más
             </Text>
           </View>
           <View style={styles.form}>
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>Email address</Text>
+              <Text style={styles.inputLabel}>Correo electrónico</Text>
               <TextInput
                 autoCapitalize="none"
                 autoCorrect={false}
                 clearButtonMode="while-editing"
                 keyboardType="email-address"
                 onChangeText={text => setEmail(text)}
-                placeholder="john@example.com"
+                placeholder="juan@ejemplo.com"
                 placeholderTextColor="#6b7280"
                 style={styles.inputControl}
               />
             </View>
             <View style={styles.input}>
-              <Text style={styles.inputLabel}>Password</Text>
+              <Text style={styles.inputLabel}>Contraseña</Text>
               <TextInput
                 autoCorrect={false}
                 clearButtonMode="while-editing"
@@ -102,11 +84,11 @@ export default function LogIn({ navigation }) {
             <View style={styles.formAction}>
               <TouchableOpacity onPress={handleLogInAccount}>
                 <View style={styles.btn}>
-                  <Text style={styles.btnText}>Sign in</Text>
+                  <Text style={styles.btnText}>Iniciar sesión</Text>
                 </View>
               </TouchableOpacity>
             </View>
-            <Text style={styles.formLink}>Forgot password?</Text>
+            <Text style={styles.formLink}>¿Olvidaste tu contraseña?</Text>
           </View>
         </KeyboardAwareScrollView>
         <TouchableOpacity
@@ -116,8 +98,8 @@ export default function LogIn({ navigation }) {
           style={{ marginTop: 'auto' }}
         >
           <Text style={styles.formFooter}>
-            Don't have an account?{' '}
-            <Text onPress={goToSingUp} style={{ textDecorationLine: 'underline' }}>Sign up</Text>
+            ¿No tienes una cuenta?{' '}
+            <Text onPress={goToSingUp} style={{ textDecorationLine: 'underline' }}>Regístrate</Text>
           </Text>
         </TouchableOpacity>
       </View>

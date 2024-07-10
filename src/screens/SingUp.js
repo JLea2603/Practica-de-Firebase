@@ -1,123 +1,122 @@
 import React, { useState } from 'react';
-import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity, TextInput, Alert,} from 'react-native';
+import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity, TextInput, Alert, } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../config/firebase-config';
 
 export default function SingUp({ navigation }) {
-    const handleSingUp = () => {
-        // Simple validation
-        if (!email || !password) {
-            Alert.alert('Error', 'Please fill in all fields.');
-        return;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const handleSingUp = () => {
+    // Validación simple
+    if (!email || !password) {
+      Alert.alert('Error', 'Por favor, completa todos los campos.');
+      return;
     }
 
-    // Simulated login process (replace with real authentication)
+    // Proceso de registro simulado (reemplazar con autenticación real)
     if (email === 'test@example.com' && password === 'password') {
-        Alert.alert('Success', 'Logged in successfully!');
-    // Handle successful login (e.g., navigate to another screen)
-        navigation.navigate('Home');
+      Alert.alert('Éxito', '¡Inicio de sesión exitoso!');
+      // Manejar inicio de sesión exitoso (por ejemplo, navegar a otra pantalla)
+      navigation.navigate('Home');
     } else {
-        Alert.alert('Error', 'Invalid email or password.');
-        }
-    };
-
-      // Función para navegar a la pantalla 'Add'
-    const goToLogIn = () => { 
-        navigation.navigate('LogIn');
+      Alert.alert('Error', 'Correo electrónico o contraseña inválidos.');
     }
+  };
 
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+  const goToLogIn = () => {
+    navigation.navigate('LogIn');
+  }
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+  const handleCreateAccount = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log('¡Cuenta creada!');
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch(error => {
+        console.log(error);
+        Alert.alert('Error', 'No se pudo crear la cuenta. Por favor, inténtalo de nuevo.');
+      });
+  }
 
-    const handleCreateAccount = () => {
-        createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            console.log('Account created!');
-            const user = userCredential.user;
-            console.log(user);
-        })
-        .catch(error => {
-            console.log(error);
-        });
-    }
-
-    return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
-        <View style={styles.container}>
-            <KeyboardAwareScrollView>
-            <View style={styles.header}>
-                <Image
-                alt="App Logo"
-                resizeMode="contain"
-                style={styles.headerImg}
-                source={{
-                    uri: 'https://assets.withfra.me/SignIn.2.png',
-                }}
-                />
-                <Text style={styles.title}>
-                Sign in to <Text style={{ color: '#075eec' }}>MyApp</Text>
-                </Text>
-                <Text style={styles.subtitle}>
-                Get access to your portfolio and more
-                </Text>
-            </View>
-            <View style={styles.form}>
-                <View style={styles.input}>
-                <Text style={styles.inputLabel}>Email address</Text>
-                <TextInput
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    clearButtonMode="while-editing"
-                    keyboardType="email-address"
-                    onChangeText={text => setEmail(text)}
-                    placeholder="john@example.com"
-                    placeholderTextColor="#6b7280"
-                    style={styles.inputControl}
-                />
-                </View>
-                <View style={styles.input}>
-                <Text style={styles.inputLabel}>Password</Text>
-                <TextInput
-                    autoCorrect={false}
-                    clearButtonMode="while-editing"
-                    onChangeText={text => setPassword(text)}
-                    placeholder="********"
-                    placeholderTextColor="#6b7280"
-                    style={styles.inputControl}
-                    secureTextEntry={true}
-                />
-                </View>
-                <View style={styles.formAction}>
-                <TouchableOpacity onPress={handleSingUp}>
-                    <View style={styles.btn}>
-                    <Text onPress={handleCreateAccount} style={styles.btnText}>Sign up</Text>
-                    </View>
-                </TouchableOpacity>
-                </View>
-                <Text style={styles.formLink}>Forgot password?</Text>
-            </View>
-            </KeyboardAwareScrollView>
-            <TouchableOpacity
-            onPress={() => {
-                // handle link
-            }}
-            style={{ marginTop: 'auto' }}
-            >
-            <Text style={styles.formFooter}>
-                Do you have an account?{' '}
-                <Text onPress={goToLogIn} style={{ textDecorationLine: 'underline' }}>Log In</Text>
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
+      <View style={styles.container}>
+        <KeyboardAwareScrollView>
+          <View style={styles.header}>
+            <Image
+              alt="App Logo"
+              resizeMode="contain"
+              style={styles.headerImg}
+              source={{
+                uri: 'https://assets.withfra.me/SignIn.2.png',
+              }}
+            />
+            <Text style={styles.title}>
+              Regístrate en <Text style={{ color: '#075eec' }}>MyApp</Text>
             </Text>
-            </TouchableOpacity>
-        </View>
-        </SafeAreaView>
-    );
-    }
+            <Text style={styles.subtitle}>
+              Accede a tu portafolio y más
+            </Text>
+          </View>
+          <View style={styles.form}>
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>Correo electrónico</Text>
+              <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                clearButtonMode="while-editing"
+                keyboardType="email-address"
+                onChangeText={text => setEmail(text)}
+                placeholder="juan@ejemplo.com"
+                placeholderTextColor="#6b7280"
+                style={styles.inputControl}
+              />
+            </View>
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>Contraseña</Text>
+              <TextInput
+                autoCorrect={false}
+                clearButtonMode="while-editing"
+                onChangeText={text => setPassword(text)}
+                placeholder="********"
+                placeholderTextColor="#6b7280"
+                style={styles.inputControl}
+                secureTextEntry={true}
+              />
+            </View>
+            <View style={styles.formAction}>
+              <TouchableOpacity onPress={handleSingUp}>
+                <View style={styles.btn}>
+                  <Text onPress={handleCreateAccount} style={styles.btnText}>Registrarse</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.formLink}>¿Olvidaste tu contraseña?</Text>
+          </View>
+        </KeyboardAwareScrollView>
+        <TouchableOpacity
+          onPress={() => {
+            // handle link
+          }}
+          style={{ marginTop: 'auto' }}
+        >
+          <Text style={styles.formFooter}>
+            ¿Ya tienes una cuenta?{' '}
+            <Text onPress={goToLogIn} style={{ textDecorationLine: 'underline' }}>Inicia sesión</Text>
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
