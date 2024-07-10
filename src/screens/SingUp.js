@@ -5,6 +5,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } f
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../config/firebase-config';
 
+
 export default function SingUp({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -46,6 +47,9 @@ export default function SingUp({ navigation }) {
       });
   }
 
+
+  
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
       <View style={styles.container}>
@@ -56,14 +60,14 @@ export default function SingUp({ navigation }) {
               resizeMode="contain"
               style={styles.headerImg}
               source={{
-                uri: 'https://assets.withfra.me/SignIn.2.png',
+                uri: 'https://cdn-icons-png.flaticon.com/512/138/138659.png',
               }}
             />
             <Text style={styles.title}>
-              Regístrate en <Text style={{ color: '#075eec' }}>MyApp</Text>
+              Regístro <Text style={{ color: '#075eec' }}></Text>
             </Text>
             <Text style={styles.subtitle}>
-              Accede a tu portafolio y más
+              Acontinuación ingrese los datos solicitados
             </Text>
           </View>
           <View style={styles.form}>
@@ -99,20 +103,11 @@ export default function SingUp({ navigation }) {
                 </View>
               </TouchableOpacity>
             </View>
-            <Text style={styles.formLink}>¿Olvidaste tu contraseña?</Text>
+            <Text style={styles.formLink} onPress={goToLogIn}>¿Ya tienes una cuenta?{' '}
+              <Text style={{ textDecorationLine: 'underline' }}>Inicia sesión</Text>
+            </Text>
           </View>
         </KeyboardAwareScrollView>
-        <TouchableOpacity
-          onPress={() => {
-            // handle link
-          }}
-          style={{ marginTop: 'auto' }}
-        >
-          <Text style={styles.formFooter}>
-            ¿Ya tienes una cuenta?{' '}
-            <Text onPress={goToLogIn} style={{ textDecorationLine: 'underline' }}>Inicia sesión</Text>
-          </Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -143,8 +138,9 @@ const styles = StyleSheet.create({
     marginVertical: 36,
   },
   headerImg: {
-    width: 80,
-    height: 80,
+    borderRadius: 30,
+    width: 140,
+    height: 140,
     alignSelf: 'center',
     marginBottom: 36,
   },
@@ -160,6 +156,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   formLink: {
+    marginTop: 20,
     fontSize: 16,
     fontWeight: '600',
     color: '#075eec',
